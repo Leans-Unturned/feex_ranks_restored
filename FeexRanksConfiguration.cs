@@ -18,6 +18,7 @@ namespace FeexRanks
         public bool RankLocalNotify = false;
         public bool RankLoginGlobalNotify = true;
         public bool RankLoginLocalNotify = false;
+        public bool RankLogoutGlobalNotify = true;
 
         public int KillPlayersPoints = 10;
         public bool KillPlayerNotify = true;

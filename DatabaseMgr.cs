@@ -27,7 +27,7 @@ namespace FeexRanks
                 "` (",
                 "`steamId` VARCHAR(32) NOT NULL,",
                 "`points` DOUBLE NOT NULL,",
-                "`currentRank` INT NOT NULL,",
+                "`currentRank` VARCHAR(32) NOT NULL,",
                 "`lastUpdated` VARCHAR(32) NOT NULL,",
                 "PRIMARY KEY (`steamId`)",
                 ");"
@@ -69,7 +69,7 @@ namespace FeexRanks
                 // Instanciate command
                 MySqlCommand mySqlCommand = mySqlConnection.CreateCommand();
                 // Command: Insert new player only if not exist the same steamId
-                mySqlCommand.CommandText = string.Concat("Insert ignore into `", _feexRanks.Configuration.Instance.FeexRanksTableName, "` (`steamId`, `points`, `currentRank` `lastUpdated`) VALUES ('", playerId, "', '", 0, "', '", _feexRanks.Configuration.Instance.Ranks[0].rankName, "', '", DateTime.Now.ToShortDateString(), "');");
+                mySqlCommand.CommandText = string.Concat("Insert ignore into `", _feexRanks.Configuration.Instance.FeexRanksTableName, "` (`steamId`, `points`, `currentRank`, `lastUpdated`) VALUES ('", playerId, "', '", 0, "', '", _feexRanks.Configuration.Instance.Ranks[0].rankName, "', '", DateTime.Now.ToShortDateString(), "');");
                 // Try to connect
                 mySqlConnection.Open();
                 // Execute the command

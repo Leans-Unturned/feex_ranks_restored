@@ -4,6 +4,7 @@ using Rocket.Unturned.Chat;
 using Rocket.Unturned.Events;
 using Rocket.Unturned.Player;
 using SDG.Unturned;
+using System;
 
 namespace FeexRanks
 {
@@ -16,8 +17,8 @@ namespace FeexRanks
             Database = new(this);
             base.LoadPlugin();
             // Instanciating events
-
             Rocket.Unturned.U.Events.OnPlayerConnected += OnPlayerConnected;
+            Rocket.Unturned.U.Events.OnPlayerDisconnected += OnPlayerDisconnected;
             UnturnedPlayerEvents.OnPlayerUpdateStat += OnPlayerStatsUpdate;
             instance = this;
         }
@@ -92,6 +93,16 @@ namespace FeexRanks
         private void OnPlayerConnected(UnturnedPlayer player)
         {
             Database.AddNewPlayer(player.Id);
+            if (Configuration.Instance.RankLoginGlobalNotify)
+                UnturnedChat.Say(Translate("player_connected_global", Database.GetRank(player.Id), player.DisplayName));
+            if (Configuration.Instance.RankLoginLocalNotify)
+                UnturnedChat.Say(Translate("player_connected", player.DisplayName, Database.GetRank(player.Id)));
+        }
+
+        private void OnPlayerDisconnected(UnturnedPlayer player)
+        {
+            if (Configuration.Instance.RankLogoutGlobalNotify)
+                UnturnedChat.Say(Translate("player_disconnected_global", Database.GetRank(player.Id), player.DisplayName));
         }
 
         public override TranslationList DefaultTranslations => new()
@@ -103,6 +114,9 @@ namespace FeexRanks
             {"rank_up_notify_global", "{0} have reached {1}" },
             {"rank_up_group_reward_notify", "You have earned the group permission {0}" },
             {"rank_up_uconomy_reward_notify", "You have earned {0} {1}" },
+            {"player_connected_global", "[{0}] {1} connected" },
+            {"player_disconnected_global", "[{0}] {1} disconnected" },
+            {"player_connected", "Welcome {0} Your current rank is {1}" },
         };
     }
 }
