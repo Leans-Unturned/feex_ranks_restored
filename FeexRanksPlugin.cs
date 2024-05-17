@@ -1,10 +1,10 @@
 ﻿using Rocket.API.Collections;
+using Rocket.Core.Logging;
 using Rocket.Core.Plugins;
 using Rocket.Unturned.Chat;
 using Rocket.Unturned.Events;
 using Rocket.Unturned.Player;
 using SDG.Unturned;
-using System;
 
 namespace FeexRanks
 {
@@ -21,6 +21,7 @@ namespace FeexRanks
             Rocket.Unturned.U.Events.OnPlayerDisconnected += OnPlayerDisconnected;
             UnturnedPlayerEvents.OnPlayerUpdateStat += OnPlayerStatsUpdate;
             instance = this;
+            Logger.Log("FeexRanks instanciated, restored by LeandroTheDev");
         }
 
         private void OnPlayerStatsUpdate(UnturnedPlayer player, EPlayerStat stat)
