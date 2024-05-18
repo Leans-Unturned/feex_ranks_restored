@@ -152,7 +152,7 @@ namespace FeexRanks
             {
                 MySqlConnection mySqlConnection = CreateConnection();
                 MySqlCommand mySqlCommand = mySqlConnection.CreateCommand();
-                mySqlCommand.CommandText = $"update `{_feexRanks.Configuration.Instance.FeexRanksTableName}` set `points` = `points` + {quantity} where `steamId` = {id};";
+                mySqlCommand.CommandText = $"update `{_feexRanks.Configuration.Instance.FeexRanksTableName}` set `points` = `points` + {quantity} where `steamId` = '{id}';";
                 mySqlConnection.Open();
                 mySqlCommand.ExecuteNonQuery();
                 mySqlConnection.Close();
@@ -196,7 +196,7 @@ namespace FeexRanks
             {
                 MySqlConnection mySqlConnection = CreateConnection();
                 MySqlCommand mySqlCommand = mySqlConnection.CreateCommand();
-                mySqlCommand.CommandText = $"update `{_feexRanks.Configuration.Instance.UconomyTableName}` set `balance` = `balance` + {quantity} where `steamId` = {id};";
+                mySqlCommand.CommandText = $"update `{_feexRanks.Configuration.Instance.UconomyTableName}` set `balance` = `balance` + {quantity} where `steamId` = '{id}';";
                 mySqlConnection.Open();
                 mySqlCommand.ExecuteNonQuery();
                 mySqlConnection.Close();
