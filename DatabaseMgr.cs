@@ -174,7 +174,7 @@ namespace FeexRanks
             {
                 MySqlConnection mySqlConnection = CreateConnection();
                 MySqlCommand mySqlCommand = mySqlConnection.CreateCommand();
-                mySqlCommand.CommandText = $"update `{_feexRanks.Configuration.Instance.FeexRanksTableName}` set `currentRank` = {rank} where `steamId` = {id};";
+                mySqlCommand.CommandText = $"update `{_feexRanks.Configuration.Instance.FeexRanksTableName}` set `currentRank` = '{rank}' where `steamId` = '{id}';";
                 mySqlConnection.Open();
                 mySqlCommand.ExecuteNonQuery();
                 mySqlConnection.Close();

@@ -18,14 +18,14 @@ namespace FeexRanks
             base.LoadPlugin();
             // Instanciating events
             Rocket.Unturned.U.Events.OnPlayerConnected += OnPlayerConnected;
-            Rocket.Unturned.U.Events.OnPlayerDisconnected += OnPlayerDisconnected;
+            Rocket.Unturned.U.Events.OnPlayerDisconnected += OnPlayerDisconnected;            
             UnturnedPlayerEvents.OnPlayerUpdateStat += OnPlayerStatsUpdate;
             instance = this;
             Logger.Log("FeexRanks instanciated, restored by LeandroTheDev");
         }
 
         private void OnPlayerStatsUpdate(UnturnedPlayer player, EPlayerStat stat)
-        {
+        {            
             switch (stat)
             {
                 case EPlayerStat.KILLS_PLAYERS:
