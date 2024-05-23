@@ -18,14 +18,14 @@ namespace FeexRanks
             base.LoadPlugin();
             // Instanciating events
             Rocket.Unturned.U.Events.OnPlayerConnected += OnPlayerConnected;
-            Rocket.Unturned.U.Events.OnPlayerDisconnected += OnPlayerDisconnected;            
+            Rocket.Unturned.U.Events.OnPlayerDisconnected += OnPlayerDisconnected;
             UnturnedPlayerEvents.OnPlayerUpdateStat += OnPlayerStatsUpdate;
             instance = this;
             Logger.Log("FeexRanks instanciated, restored by LeandroTheDev");
         }
 
         private void OnPlayerStatsUpdate(UnturnedPlayer player, EPlayerStat stat)
-        {            
+        {
             switch (stat)
             {
                 case EPlayerStat.KILLS_PLAYERS:
@@ -52,18 +52,30 @@ namespace FeexRanks
         private void PlayerNotifyRankSystem(UnturnedPlayer player, decimal currentPoints, string currentRank)
         {
             Rank calculatedRank = null;
+            Rank actualRank = null;
             // Swipe all levels to get the current level
+            bool currentPointsFinished = false;
+            bool currentRankFinished = false;
             foreach (Rank forRank in Configuration.Instance.Ranks)
             {
-                // Check the level
+                // Check the level points
                 if (currentPoints >= forRank.points)
-                {
+                    // Update current rank
                     calculatedRank = forRank;
-                }
-                else break;
+                else currentPointsFinished = true;
+
+                // Check the level rank
+                if (currentRank == forRank.rankName)
+                    // Update current rank
+                    actualRank = forRank;
+                else currentRankFinished = true;
+
+                // Check if swipe finished
+                if (currentPointsFinished && currentRankFinished) break;
             }
-            // Simple verify if the actual rank is different from the points
-            if (calculatedRank != null && currentRank != calculatedRank.rankName)
+            
+            // Simple verify if the calculatedRank is bigger than actual rank
+            if (calculatedRank.points > actualRank.points)
             {
                 // Update in database the player rank
                 Database.UpdateRank(player.Id, calculatedRank.rankName);

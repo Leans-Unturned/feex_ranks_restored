@@ -45,6 +45,11 @@ namespace FeexRanks
                 {
                     points = 100,
                     rankName = "Rank 1",
+                    itemsReward = new RankItem()
+                    {
+                        id = 10,
+                        quantity = 5
+                    },
                     groupReward = "VIP",
                     groupNotify = true,
                     uconomyReward = 0,
@@ -58,9 +63,15 @@ namespace FeexRanks
     {
         public string rankName;
         public uint points;
+        public RankItem itemsReward;
         public string groupReward;
         public bool groupNotify;
         public uint uconomyReward;
         public bool uconomyNotify;
+    }
+    public class RankItem
+    {
+        public int id;
+        public uint quantity;
     }
 }
