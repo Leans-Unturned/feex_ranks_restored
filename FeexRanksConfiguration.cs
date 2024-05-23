@@ -15,6 +15,9 @@ namespace FeexRanks
         public string UconomyCurrencyName = "Credits";
         public string RankPointsName = "experience";
         public uint PointsLoseWhenDie = 0;
+        public uint PointsEarnPerTime = 0;
+        public bool NotifyPointsEarnPerTime = true;
+        public uint TickratePointsEarnPerTime = 36000;
         public bool RankGlobalNotify = true;
         public bool RankLocalNotify = false;
         public bool RankLoginGlobalNotify = true;

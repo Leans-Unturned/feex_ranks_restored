@@ -15,7 +15,9 @@ Requirements:
 - RankLoginLocalNotify: Notify the player rank when he join in the server
 - RankLogoutGlobalNotify: Globably notify the player rank when he disconnect the server
 - Kill...Points: Quantity of points a player will earn for killing
-- 
+- PointsLoseWhenDie: Points to lose when the player dies
+- PointsEarnPerTime: Points to earn every TickratePointsEarnPerTime
+- TickratePointsEarnPerTime: Every amount of ticks in the server to earn points, calculation: Seconds * ServerTickrate, you can view tickrate in ``Rocket.config``
 
 # Building
 

@@ -7,6 +7,8 @@ using Rocket.Unturned.Chat;
 using Rocket.Unturned.Events;
 using Rocket.Unturned.Player;
 using SDG.Unturned;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityCoreModule = UnityEngineCoreModule.UnityEngine;
 
 namespace FeexRanks
@@ -14,6 +16,7 @@ namespace FeexRanks
     public class FeexRanksPlugin : RocketPlugin<FeexRanksConfiguration>
     {
         public static FeexRanksPlugin instance;
+        private FeexRanksTickrate tickrate;
         public DatabaseMgr Database;
         public override void LoadPlugin()
         {
@@ -23,7 +26,10 @@ namespace FeexRanks
             Rocket.Unturned.U.Events.OnPlayerConnected += OnPlayerConnected;
             Rocket.Unturned.U.Events.OnPlayerDisconnected += OnPlayerDisconnected;
             UnturnedPlayerEvents.OnPlayerUpdateStat += OnPlayerStatsUpdate;
+            if (Configuration.Instance.PointsEarnPerTime > 0)
+                tickrate = gameObject.AddComponent<FeexRanksTickrate>();
             instance = this;
+
             Logger.Log("FeexRanks instanciated, restored by LeandroTheDev");
         }
 
@@ -52,7 +58,7 @@ namespace FeexRanks
             }
         }
 
-        private void PlayerNotifyRankSystem(UnturnedPlayer player, decimal currentPoints, string currentRank)
+        public void PlayerNotifyRankSystem(UnturnedPlayer player, decimal currentPoints, string currentRank)
         {
             Rank calculatedRank = null;
             Rank actualRank = null;
@@ -116,6 +122,8 @@ namespace FeexRanks
 
             if (Configuration.Instance.PointsLoseWhenDie > 0)
                 player.Events.OnDead += OnPlayerDied;
+
+            tickrate.AddPlayer(player);
         }
 
         private void OnPlayerDied(UnturnedPlayer player, UnityCoreModule.Vector3 position)
@@ -133,7 +141,7 @@ namespace FeexRanks
                     actualRank = forRank;
                 else break;
             }
-            
+
             // If rank points is bigger than player points cancel the function
             if (actualRank.points >= currentPoints) return;
 
@@ -151,6 +159,8 @@ namespace FeexRanks
         {
             if (Configuration.Instance.RankLogoutGlobalNotify)
                 UnturnedChat.Say(Translate("player_disconnected_global", Database.GetRank(player.Id), player.DisplayName));
+
+            tickrate.RemovePlayer(player);
         }
 
         public override TranslationList DefaultTranslations => new()
@@ -167,6 +177,40 @@ namespace FeexRanks
             {"player_connected", "Welcome {0} Your current rank is {1}" },
             {"rank_command", "Your current rank is {0} with {1} {2}" },
             {"points_lost", "You lost {0} {1}" },
+            {"points_earned_time", "You earned {0} {1} for playing" },
         };
+    }
+
+    class FeexRanksTickrate : MonoBehaviour
+    {
+        readonly List<UnturnedPlayer> playersToEarnPoints = new();
+        uint actualTick = 0;
+
+        public void Start()
+        {
+            actualTick = FeexRanksPlugin.instance.Configuration.Instance.TickratePointsEarnPerTime;
+        }
+
+        public void Update()
+        {
+            if (actualTick <= 0)
+            {
+                actualTick = FeexRanksPlugin.instance.Configuration.Instance.TickratePointsEarnPerTime;
+                foreach (UnturnedPlayer player in playersToEarnPoints)
+                {
+                    // Add points into database
+                    FeexRanksPlugin.instance.Database.AddPoints(player.Id, (int)FeexRanksPlugin.instance.Configuration.Instance.PointsEarnPerTime);
+                    // Notify poitns earned
+                    UnturnedChat.Say(FeexRanksPlugin.instance.Translate("points_earned_time", FeexRanksPlugin.instance.Configuration.Instance.PointsEarnPerTime, FeexRanksPlugin.instance.Configuration.Instance.RankPointsName));
+                    // Notify if he rank up
+                    FeexRanksPlugin.instance.PlayerNotifyRankSystem(player, FeexRanksPlugin.instance.Database.GetPoints(player.Id), FeexRanksPlugin.instance.Database.GetRank(player.Id));
+                }
+            }
+            actualTick--;
+        }
+
+        public void AddPlayer(UnturnedPlayer player) => playersToEarnPoints.Add(player);
+
+        public void RemovePlayer(UnturnedPlayer player) => playersToEarnPoints.Remove(player);
     }
 }
