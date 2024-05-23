@@ -140,9 +140,11 @@ namespace FeexRanks
             {
                 // Check the level rank
                 if (currentRank == forRank.rankName)
+                {
                     // Update current rank
                     actualRank = forRank;
-                else break;
+                    break;
+                }
             }
             // If can't find the rank cancel it
             if (actualRank == null) return;
@@ -152,7 +154,10 @@ namespace FeexRanks
 
             // This is hard to understand but this will calculate the max points to lose
             // if player only have 5 points and he will lose 10, in this case he will lose only 5 points instead of 10 points
-            pointsToLose = ((currentPoints - actualRank.points) - pointsToLose) + pointsToLose;
+            if (((currentPoints - actualRank.points) - pointsToLose) <= 0)
+                pointsToLose = ((currentPoints - actualRank.points) - pointsToLose) + pointsToLose;
+
+            if (pointsToLose == 0) return;
 
             // Reduce in database
             Database.ReducePoints(player.Id, pointsToLose);
