@@ -123,7 +123,8 @@ namespace FeexRanks
             if (Configuration.Instance.PointsLoseWhenDie > 0)
                 player.Events.OnDead += OnPlayerDied;
 
-            tickrate.AddPlayer(player);
+            if (Configuration.Instance.PointsEarnPerTime > 0)
+                tickrate.AddPlayer(player);
         }
 
         private void OnPlayerDied(UnturnedPlayer player, UnityCoreModule.Vector3 position)
@@ -160,7 +161,8 @@ namespace FeexRanks
             if (Configuration.Instance.RankLogoutGlobalNotify)
                 UnturnedChat.Say(Translate("player_disconnected_global", Database.GetRank(player.Id), player.DisplayName));
 
-            tickrate.RemovePlayer(player);
+            if (Configuration.Instance.PointsEarnPerTime > 0)
+                tickrate.RemovePlayer(player);
         }
 
         public override TranslationList DefaultTranslations => new()
