@@ -164,6 +164,31 @@ namespace FeexRanks
         }
 
         /// <summary>
+        /// Reduce points to the player rank, do not use negative numbers!
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="quantity"></param>
+        public void ReducePoints(string id, uint quantity)
+        {
+            int points = GetPoints(id);
+            if (quantity == 0) return;
+            if ((points - quantity) < 0) return;
+            try
+            {
+                MySqlConnection mySqlConnection = CreateConnection();
+                MySqlCommand mySqlCommand = mySqlConnection.CreateCommand();
+                mySqlCommand.CommandText = $"update `{_feexRanks.Configuration.Instance.FeexRanksTableName}` set `points` = `points` - {quantity} where `steamId` = '{id}';";
+                mySqlConnection.Open();
+                mySqlCommand.ExecuteNonQuery();
+                mySqlConnection.Close();
+            }
+            catch (Exception exception)
+            {
+                Logger.LogError($"[FeexRanks] Database Crashed by {id} from function ReducePoints, reason: {exception.Message}");
+            }
+        }
+
+        /// <summary>
         /// Update the rank for the player
         /// </summary>
         /// <param name="id"></param>

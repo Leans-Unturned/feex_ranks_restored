@@ -6,6 +6,17 @@ Requirements:
 - Mysql
 - Uconomy (Optional)
 
+### Configuration
+- PointsLoseWhenDie: amount of points the player will lose when die, losing points will not reduce points lower than rank
+(reducing ranks will cause problems to player receiving the same reward as before)
+- RankGlobalNotify: Globably notify player rank when any player rank up
+- RankLocalNotify: Notify only the player when he rank up
+- RankLoginGlobalNotify: Globably notify the player rank when he logging into server
+- RankLoginLocalNotify: Notify the player rank when he join in the server
+- RankLogoutGlobalNotify: Globably notify the player rank when he disconnect the server
+- Kill...Points: Quantity of points a player will earn for killing
+- 
+
 # Building
 
 *Windows*: The project uses dotnet 4.8, consider installing into your machine, you need visual studio, simple open the solution file open the Build section and hit the build button (ctrl + shift + b) or you can do into powershell the command dotnet build -c Debug if you have installed dotnet 4.8.

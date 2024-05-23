@@ -14,6 +14,7 @@ namespace FeexRanks
         public string UconomyTableName = "uconomy";
         public string UconomyCurrencyName = "Credits";
         public string RankPointsName = "experience";
+        public uint PointsLoseWhenDie = 0;
         public bool RankGlobalNotify = true;
         public bool RankLocalNotify = false;
         public bool RankLoginGlobalNotify = true;

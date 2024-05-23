@@ -1,10 +1,13 @@
-﻿using Rocket.API.Collections;
+﻿extern alias UnityEngineCoreModule;
+
+using Rocket.API.Collections;
 using Rocket.Core.Logging;
 using Rocket.Core.Plugins;
 using Rocket.Unturned.Chat;
 using Rocket.Unturned.Events;
 using Rocket.Unturned.Player;
 using SDG.Unturned;
+using UnityCoreModule = UnityEngineCoreModule.UnityEngine;
 
 namespace FeexRanks
 {
@@ -73,7 +76,7 @@ namespace FeexRanks
                 // Check if swipe finished
                 if (currentPointsFinished && currentRankFinished) break;
             }
-            
+
             // Simple verify if the calculatedRank is bigger than actual rank
             if (calculatedRank.points > actualRank.points)
             {
@@ -110,6 +113,38 @@ namespace FeexRanks
                 UnturnedChat.Say(Translate("player_connected_global", Database.GetRank(player.Id), player.DisplayName));
             if (Configuration.Instance.RankLoginLocalNotify)
                 UnturnedChat.Say(Translate("player_connected", player.DisplayName, Database.GetRank(player.Id)));
+
+            if (Configuration.Instance.PointsLoseWhenDie > 0)
+                player.Events.OnDead += OnPlayerDied;
+        }
+
+        private void OnPlayerDied(UnturnedPlayer player, UnityCoreModule.Vector3 position)
+        {
+            uint pointsToLose = Configuration.Instance.PointsLoseWhenDie;
+            uint currentPoints = (uint)Database.GetPoints(player.Id);
+            string currentRank = Database.GetRank(player.Id);
+            Rank actualRank = null;
+            // Swipe all levels to get the current level
+            foreach (Rank forRank in Configuration.Instance.Ranks)
+            {
+                // Check the level rank
+                if (currentRank == forRank.rankName)
+                    // Update current rank
+                    actualRank = forRank;
+                else break;
+            }
+            
+            // If rank points is bigger than player points cancel the function
+            if (actualRank.points >= currentPoints) return;
+
+            // This is hard to understand but this will calculate the max points to lose
+            // if player only have 5 points and he will lose 10, in this case he will lose only 5 points instead of 10 points
+            pointsToLose = ((currentPoints - actualRank.points) - pointsToLose) + pointsToLose;
+
+            // Reduce in database
+            Database.ReducePoints(player.Id, pointsToLose);
+            // Inform player
+            UnturnedChat.Say(player, Translate("points_lost", pointsToLose, Configuration.Instance.RankPointsName));
         }
 
         private void OnPlayerDisconnected(UnturnedPlayer player)
@@ -131,6 +166,7 @@ namespace FeexRanks
             {"player_disconnected_global", "[{0}] {1} disconnected" },
             {"player_connected", "Welcome {0} Your current rank is {1}" },
             {"rank_command", "Your current rank is {0} with {1} {2}" },
+            {"points_lost", "You lost {0} {1}" },
         };
     }
 }

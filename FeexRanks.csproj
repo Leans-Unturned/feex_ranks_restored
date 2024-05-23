@@ -1,53 +1,54 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  
-  <PropertyGroup>
-    <TargetFrameworks>net48</TargetFrameworks>
-    <AssemblyName>FeexRanks</AssemblyName>
-    <RootNamespace>FeexRanks</RootNamespace>
-    <OutputType>Library</OutputType>
-	  <LangVersion>10</LangVersion>
-  </PropertyGroup> 
-  
-  <PropertyGroup>
-    <PackageId>FeexRanks</PackageId>
-    <PackageTags>RocketMod Universal</PackageTags>
-	<PackageAuthors>LeandroTheDev</PackageAuthors>
-    <PackageOwners>LeandroTheDev</PackageOwners>
-    <Version>2.0.0</Version>
-	<PackageVersion>2.0.0</PackageVersion>
-    <Authors>LeandroTheDev</Authors>
-    <Description>Rank system for unturned.</Description>
-    <Copyright>LeandroTheDev</Copyright>
-    <AssemblyVersion>2.0.0</AssemblyVersion>
-    <FileVersion>2.0.0</FileVersion>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-  </PropertyGroup>
-  
-  <ItemGroup>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>Libs\Assembly-CSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="com.rlabrecque.steamworks.net">
-      <HintPath>Libs\com.rlabrecque.steamworks.net.dll</HintPath>
-    </Reference>
-    <Reference Include="MySql.Data">
-      <HintPath>Libs\MySql.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="Rocket.API">
-      <HintPath>Libs\Rocket.API.dll</HintPath>
-    </Reference>
-    <Reference Include="Rocket.Core">
-      <HintPath>Libs\Rocket.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Rocket.Unturned">
-      <HintPath>Libs\Rocket.Unturned.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine">
-      <HintPath>Libs\UnityEngine.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.CoreModule">
-      <HintPath>Libs\UnityEngine.CoreModule.dll</HintPath>
-    </Reference>
-  </ItemGroup> 
-  
+
+	<PropertyGroup>
+		<TargetFrameworks>net48</TargetFrameworks>
+		<AssemblyName>FeexRanks</AssemblyName>
+		<RootNamespace>FeexRanks</RootNamespace>
+		<OutputType>Library</OutputType>
+		<LangVersion>10</LangVersion>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<PackageId>FeexRanks</PackageId>
+		<PackageTags>RocketMod Universal</PackageTags>
+		<PackageAuthors>LeandroTheDev</PackageAuthors>
+		<PackageOwners>LeandroTheDev</PackageOwners>
+		<Version>2.0.0</Version>
+		<PackageVersion>2.0.0</PackageVersion>
+		<Authors>LeandroTheDev</Authors>
+		<Description>Rank system for unturned.</Description>
+		<Copyright>LeandroTheDev</Copyright>
+		<AssemblyVersion>2.0.0</AssemblyVersion>
+		<FileVersion>2.0.0</FileVersion>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Reference Include="Assembly-CSharp">
+			<HintPath>Libs\Assembly-CSharp.dll</HintPath>
+		</Reference>
+		<Reference Include="com.rlabrecque.steamworks.net">
+			<HintPath>Libs\com.rlabrecque.steamworks.net.dll</HintPath>
+		</Reference>
+		<Reference Include="MySql.Data">
+			<HintPath>Libs\MySql.Data.dll</HintPath>
+		</Reference>
+		<Reference Include="Rocket.API">
+			<HintPath>Libs\Rocket.API.dll</HintPath>
+		</Reference>
+		<Reference Include="Rocket.Core">
+			<HintPath>Libs\Rocket.Core.dll</HintPath>
+		</Reference>
+		<Reference Include="Rocket.Unturned">
+			<HintPath>Libs\Rocket.Unturned.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine">
+			<HintPath>Libs\UnityEngine.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.CoreModule">
+			<HintPath>Libs\UnityEngine.CoreModule.dll</HintPath>
+			<Aliases>UnityEngineCoreModule</Aliases>
+		</Reference>
+	</ItemGroup>
+
 </Project>
