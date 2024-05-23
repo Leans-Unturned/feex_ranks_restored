@@ -82,7 +82,9 @@ namespace FeexRanks
                 // Check if swipe finished
                 if (currentPointsFinished && currentRankFinished) break;
             }
-
+            // Null check
+            if (calculatedRank == null || actualRank == null)
+                Logger.LogError($"{player.Id} have any invalid rank: {currentRank}, types: {calculatedRank} : {actualRank}, this 2 types needs to be different from null and thats not the case");
             // Simple verify if the calculatedRank is bigger than actual rank
             if (calculatedRank.points > actualRank.points)
             {
@@ -123,12 +125,12 @@ namespace FeexRanks
             if (Configuration.Instance.PointsLoseWhenDie > 0)
                 player.Events.OnDead += OnPlayerDied;
 
-            if (Configuration.Instance.PointsEarnPerTime > 0)
-                tickrate.AddPlayer(player);
+            tickrate.AddPlayer(player);
         }
 
         private void OnPlayerDied(UnturnedPlayer player, UnityCoreModule.Vector3 position)
         {
+            if (player == null) return;
             uint pointsToLose = Configuration.Instance.PointsLoseWhenDie;
             uint currentPoints = (uint)Database.GetPoints(player.Id);
             string currentRank = Database.GetRank(player.Id);
@@ -142,6 +144,8 @@ namespace FeexRanks
                     actualRank = forRank;
                 else break;
             }
+            // If can't find the rank cancel it
+            if (actualRank == null) return;
 
             // If rank points is bigger than player points cancel the function
             if (actualRank.points >= currentPoints) return;
@@ -161,8 +165,7 @@ namespace FeexRanks
             if (Configuration.Instance.RankLogoutGlobalNotify)
                 UnturnedChat.Say(Translate("player_disconnected_global", Database.GetRank(player.Id), player.DisplayName));
 
-            if (Configuration.Instance.PointsEarnPerTime > 0)
-                tickrate.RemovePlayer(player);
+            tickrate.RemovePlayer(player);
         }
 
         public override TranslationList DefaultTranslations => new()
