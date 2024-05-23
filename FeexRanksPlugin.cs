@@ -118,6 +118,7 @@ namespace FeexRanks
             {"player_connected_global", "[{0}] {1} connected" },
             {"player_disconnected_global", "[{0}] {1} disconnected" },
             {"player_connected", "Welcome {0} Your current rank is {1}" },
+            {"rank_command", "Your current rank is {0} with {1} {2}" },
         };
     }
 }

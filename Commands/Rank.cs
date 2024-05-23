@@ -22,10 +22,11 @@ namespace FeexRanks.Commands
         {
             // Receive the rank
             string rank = FeexRanksPlugin.instance.Database.GetRank(caller.Id);
+            int points = FeexRanksPlugin.instance.Database.GetPoints(caller.Id);
             // If the player doesn't exist, or something goes really wrong, simple show the rank 0
             if (rank == "") UnturnedChat.Say(caller, FeexRanksPlugin.instance.Configuration.Instance.Ranks[0].rankName);
             // Normal behaviour
-            else UnturnedChat.Say(caller, rank);
+            else UnturnedChat.Say(caller, FeexRanksPlugin.instance.Translate("rank_command", rank, points, FeexRanksPlugin.instance.Configuration.Instance.RankPointsName));
         }
     }
 }
