@@ -194,6 +194,9 @@ namespace FeexRanks
                 UnturnedChat.Say(Translate("player_disconnected_global", Database.GetRank(player.Id), player.DisplayName), new UnityCoreModule.Color(logoutColors[0], logoutColors[1], logoutColors[2]));
             }
 
+            if (Configuration.Instance.PointsLoseWhenDie > 0)
+                player.Events.OnDead -= OnPlayerDied;
+                
             tickrate?.RemovePlayer(player);
         }
 
