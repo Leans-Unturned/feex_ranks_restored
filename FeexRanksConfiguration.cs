@@ -15,21 +15,29 @@ namespace FeexRanks
         public string UconomyCurrencyName = "Credits";
         public string RankPointsName = "experience";
         public uint PointsLoseWhenDie = 0;
+        public string PointsLoseRGBColorNotify = "255,0,0";
         public uint PointsEarnPerTime = 0;
+        public string PointsEarnRGBColorNotify = "0,255,0";
         public bool NotifyPointsEarnPerTime = true;
         public uint TickratePointsEarnPerTime = 36000;
         public bool RankGlobalNotify = true;
         public bool RankLocalNotify = false;
+        public string RankRGBColorNotify = "0,255,0";
         public bool RankLoginGlobalNotify = true;
         public bool RankLoginLocalNotify = false;
+        public string RankLoginRGBColorNotify = "0,255,0";
         public bool RankLogoutGlobalNotify = true;
+        public string RankLogoutRGBColorNotify = "0,255,0";
 
         public int KillPlayersPoints = 10;
         public bool KillPlayerNotify = true;
+        public string KillPlayerRGBColorNotify = "255,0,0";
         public int KillZombiePoints = 1;
         public bool KillZombieNotify = false;
+        public string KillZombieRGBColorNotify = "0,255,0";
         public int KillMegaZombiePoints = 50;
         public bool KillMegaZombieNotify = true;
+        public string KillMegaRGBColorNotify = "0,255,0";
         public List<Rank> Ranks = new();
 
         public void LoadDefaults()
@@ -44,6 +52,8 @@ namespace FeexRanks
                     groupNotify = false,
                     uconomyReward = 0,
                     uconomyNotify = true,
+                    groupRGBColorNotify = "0,255,0",
+                    uconomyRGBColorNotify = "0,255,0",
                 },
                 new()
                 {
@@ -58,6 +68,8 @@ namespace FeexRanks
                     groupNotify = true,
                     uconomyReward = 0,
                     uconomyNotify = true,
+                    groupRGBColorNotify = "255,0,0",
+                    uconomyRGBColorNotify = "0,255,0",
                 }
             };
         }
@@ -72,6 +84,8 @@ namespace FeexRanks
         public bool groupNotify;
         public uint uconomyReward;
         public bool uconomyNotify;
+        public string groupRGBColorNotify;
+        public string uconomyRGBColorNotify;
     }
     public class RankItem
     {
