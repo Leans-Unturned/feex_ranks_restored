@@ -12,6 +12,7 @@ namespace FeexRanks
         public int DatabasePort = 3306;
         public string FeexRanksTableName = "ranks";
         public string UconomyTableName = "uconomy";
+        public string ChatIconURL = "https://add-image-url.com";
         public string UconomyCurrencyName = "Credits";
         public string RankPointsName = "experience";
         public uint PointsLoseWhenDie = 0;

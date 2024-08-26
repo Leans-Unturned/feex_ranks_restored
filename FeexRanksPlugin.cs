@@ -42,7 +42,15 @@ namespace FeexRanks
                     if (Configuration.Instance.KillPlayerNotify)
                     {
                         int[] colors = Configuration.Instance.KillPlayerRGBColorNotify.Split(',').Select(int.Parse).ToArray();
-                        UnturnedChat.Say(player, Translate("killed_player", Configuration.Instance.KillPlayersPoints, Configuration.Instance.RankPointsName), new UnityCoreModule.Color(colors[0], colors[1], colors[2]));
+                        ChatManager.serverSendMessage(
+                            Translate("killed_player", Configuration.Instance.KillPlayersPoints, Configuration.Instance.RankPointsName),
+                            new UnityCoreModule.Color(colors[0], colors[1], colors[2]),
+                            null,
+                            player.SteamPlayer(),
+                            EChatMode.SAY,
+                            Configuration.Instance.ChatIconURL,
+                            true
+                        );
                     }
                     Database.AddPoints(player.Id, Configuration.Instance.KillPlayersPoints);
                     PlayerNotifyRankSystem(player, Database.GetPoints(player.Id), Database.GetRank(player.Id));
@@ -51,7 +59,15 @@ namespace FeexRanks
                     if (Configuration.Instance.KillZombieNotify)
                     {
                         int[] colors = Configuration.Instance.KillZombieRGBColorNotify.Split(',').Select(int.Parse).ToArray();
-                        UnturnedChat.Say(player, Translate("killed_zombie", Configuration.Instance.KillZombiePoints, Configuration.Instance.RankPointsName), new UnityCoreModule.Color(colors[0], colors[1], colors[2]));
+                        ChatManager.serverSendMessage(
+                            Translate("killed_zombie", Configuration.Instance.KillZombiePoints, Configuration.Instance.RankPointsName),
+                            new UnityCoreModule.Color(colors[0], colors[1], colors[2]),
+                            null,
+                            player.SteamPlayer(),
+                            EChatMode.SAY,
+                            Configuration.Instance.ChatIconURL,
+                            true
+                        );
                     }
                     Database.AddPoints(player.Id, Configuration.Instance.KillZombiePoints);
                     PlayerNotifyRankSystem(player, Database.GetPoints(player.Id), Database.GetRank(player.Id));
@@ -60,7 +76,15 @@ namespace FeexRanks
                     if (Configuration.Instance.KillMegaZombieNotify)
                     {
                         int[] colors = Configuration.Instance.KillZombieRGBColorNotify.Split(',').Select(int.Parse).ToArray();
-                        UnturnedChat.Say(player, Translate("killed_mega_zombie", Configuration.Instance.KillMegaZombiePoints, Configuration.Instance.RankPointsName), new UnityCoreModule.Color(colors[0], colors[1], colors[2]));
+                        ChatManager.serverSendMessage(
+                            Translate("killed_mega_zombie", Configuration.Instance.KillMegaZombiePoints, Configuration.Instance.RankPointsName),
+                            new UnityCoreModule.Color(colors[0], colors[1], colors[2]),
+                            null,
+                            player.SteamPlayer(),
+                            EChatMode.SAY,
+                            Configuration.Instance.ChatIconURL,
+                            true
+                        );
                     }
                     Database.AddPoints(player.Id, Configuration.Instance.KillMegaZombiePoints);
                     PlayerNotifyRankSystem(player, Database.GetPoints(player.Id), Database.GetRank(player.Id));
@@ -103,9 +127,26 @@ namespace FeexRanks
 
                 // Notify
                 int[] rankColors = Configuration.Instance.RankRGBColorNotify.Split(',').Select(int.Parse).ToArray();
-                if (Configuration.Instance.RankLocalNotify) UnturnedChat.Say(player, Translate("rank_up_notify", calculatedRank.rankName), new UnityCoreModule.Color(rankColors[0], rankColors[1], rankColors[2]));
-                if (Configuration.Instance.RankGlobalNotify) UnturnedChat.Say(Translate("rank_up_notify_global", player.DisplayName, calculatedRank.rankName), new UnityCoreModule.Color(rankColors[0], rankColors[1], rankColors[2]));
-
+                if (Configuration.Instance.RankLocalNotify)
+                    ChatManager.serverSendMessage(
+                        Translate("rank_up_notify", calculatedRank.rankName),
+                        new UnityCoreModule.Color(rankColors[0], rankColors[1], rankColors[2]),
+                        null,
+                        player.SteamPlayer(),
+                        EChatMode.SAY,
+                        Configuration.Instance.ChatIconURL,
+                        true
+                    );
+                if (Configuration.Instance.RankGlobalNotify)
+                    ChatManager.serverSendMessage(
+                        Translate("rank_up_notify_global", player.DisplayName, calculatedRank.rankName),
+                        new UnityCoreModule.Color(rankColors[0], rankColors[1], rankColors[2]),
+                        null,
+                        null,
+                        EChatMode.SAY,
+                        Configuration.Instance.ChatIconURL,
+                        true
+                    );
                 // Group Reward
                 if (calculatedRank.groupReward != null)
                 {
@@ -114,7 +155,16 @@ namespace FeexRanks
 
                     // Notify
                     int[] groupRewardColors = calculatedRank.groupRGBColorNotify.Split(',').Select(int.Parse).ToArray();
-                    if (calculatedRank.groupNotify) UnturnedChat.Say(player, Translate("rank_up_group_reward_notify", calculatedRank.groupReward), new UnityCoreModule.Color(groupRewardColors[0], groupRewardColors[1], groupRewardColors[2]));
+                    if (calculatedRank.groupNotify)
+                        ChatManager.serverSendMessage(
+                            Translate("rank_up_group_reward_notify", calculatedRank.groupReward),
+                            new UnityCoreModule.Color(groupRewardColors[0], groupRewardColors[1], groupRewardColors[2]),
+                            null,
+                            player.SteamPlayer(),
+                            EChatMode.SAY,
+                            Configuration.Instance.ChatIconURL,
+                            true
+                        );
                 }
                 // Uconomy Reward
                 if (calculatedRank.uconomyReward > 0)
@@ -123,7 +173,16 @@ namespace FeexRanks
                     Database.AddPoints(player.Id, (int)calculatedRank.uconomyReward);
                     // Notify
                     int[] uconomyRewardColors = calculatedRank.uconomyRGBColorNotify.Split(',').Select(int.Parse).ToArray();
-                    if (calculatedRank.uconomyNotify) UnturnedChat.Say(player, Translate("rank_up_uconomy_reward_notify", calculatedRank.uconomyReward, Configuration.Instance.UconomyCurrencyName), new UnityCoreModule.Color(uconomyRewardColors[0], uconomyRewardColors[1], uconomyRewardColors[2]));
+                    if (calculatedRank.uconomyNotify)
+                        ChatManager.serverSendMessage(
+                            Translate("rank_up_uconomy_reward_notify", calculatedRank.uconomyReward, Configuration.Instance.UconomyCurrencyName),
+                            new UnityCoreModule.Color(uconomyRewardColors[0], uconomyRewardColors[1], uconomyRewardColors[2]),
+                            null,
+                            player.SteamPlayer(),
+                            EChatMode.SAY,
+                            Configuration.Instance.ChatIconURL,
+                            true
+                        );
                 }
             }
         }
@@ -134,12 +193,30 @@ namespace FeexRanks
             if (Configuration.Instance.RankLoginGlobalNotify)
             {
                 int[] loginColors = Configuration.Instance.RankLoginRGBColorNotify.Split(',').Select(int.Parse).ToArray();
-                UnturnedChat.Say(Translate("player_connected_global", Database.GetRank(player.Id), player.DisplayName), new UnityCoreModule.Color(loginColors[0], loginColors[1], loginColors[2]));
+                ChatManager.serverSendMessage(
+                    Translate("player_connected_global",
+                    Database.GetRank(player.Id), player.DisplayName),
+                    new UnityCoreModule.Color(loginColors[0], loginColors[1], loginColors[2]),
+                    null,
+                    null,
+                    EChatMode.SAY,
+                    Configuration.Instance.ChatIconURL,
+                    true
+                );
             }
             if (Configuration.Instance.RankLoginLocalNotify)
             {
                 int[] loginColors = Configuration.Instance.RankLogoutRGBColorNotify.Split(',').Select(int.Parse).ToArray();
-                UnturnedChat.Say(Translate("player_connected", player.DisplayName, Database.GetRank(player.Id)), new UnityCoreModule.Color(loginColors[0], loginColors[1], loginColors[2]));
+                ChatManager.serverSendMessage(
+                    Translate("player_connected",
+                    player.DisplayName, Database.GetRank(player.Id)),
+                    new UnityCoreModule.Color(loginColors[0], loginColors[1], loginColors[2]),
+                    null,
+                    null,
+                    EChatMode.SAY,
+                    Configuration.Instance.ChatIconURL,
+                    true
+                );
             }
 
             if (Configuration.Instance.PointsLoseWhenDie > 0)
@@ -183,7 +260,15 @@ namespace FeexRanks
             Database.ReducePoints(player.Id, pointsToLose);
             // Inform player
             int[] loseColors = Configuration.Instance.PointsLoseRGBColorNotify.Split(',').Select(int.Parse).ToArray();
-            UnturnedChat.Say(player, Translate("points_lost", pointsToLose, Configuration.Instance.RankPointsName), new UnityCoreModule.Color(loseColors[0], loseColors[1], loseColors[2]));
+            ChatManager.serverSendMessage(
+                Translate("points_lost", pointsToLose, Configuration.Instance.RankPointsName),
+                new UnityCoreModule.Color(loseColors[0], loseColors[1], loseColors[2]),
+                null,
+                player.SteamPlayer(),
+                EChatMode.SAY,
+                Configuration.Instance.ChatIconURL,
+                true
+            );
         }
 
         private void OnPlayerDisconnected(UnturnedPlayer player)
@@ -191,12 +276,20 @@ namespace FeexRanks
             if (Configuration.Instance.RankLogoutGlobalNotify)
             {
                 int[] logoutColors = Configuration.Instance.RankLogoutRGBColorNotify.Split(',').Select(int.Parse).ToArray();
-                UnturnedChat.Say(Translate("player_disconnected_global", Database.GetRank(player.Id), player.DisplayName), new UnityCoreModule.Color(logoutColors[0], logoutColors[1], logoutColors[2]));
+                ChatManager.serverSendMessage(
+                    Translate("player_disconnected_global", Database.GetRank(player.Id), player.DisplayName),
+                    new UnityCoreModule.Color(logoutColors[0], logoutColors[1], logoutColors[2]),
+                    null,
+                    null,
+                    EChatMode.SAY,
+                    Configuration.Instance.ChatIconURL,
+                    true
+                );
             }
 
             if (Configuration.Instance.PointsLoseWhenDie > 0)
                 player.Events.OnDead -= OnPlayerDied;
-                
+
             tickrate?.RemovePlayer(player);
         }
 
@@ -237,7 +330,17 @@ namespace FeexRanks
                 {
                     // Add points into database
                     FeexRanksPlugin.instance.Database.AddPoints(player.Id, (int)FeexRanksPlugin.instance.Configuration.Instance.PointsEarnPerTime);
+                    int[] pointsEarn = FeexRanksPlugin.instance.Configuration.Instance.PointsEarnRGBColorNotify.Split(',').Select(int.Parse).ToArray();
                     // Notify poitns earned
+                    ChatManager.serverSendMessage(
+                        FeexRanksPlugin.instance.Translate("points_earned_time", FeexRanksPlugin.instance.Configuration.Instance.PointsEarnPerTime, FeexRanksPlugin.instance.Configuration.Instance.RankPointsName),
+                        new UnityCoreModule.Color(pointsEarn[0], pointsEarn[1], pointsEarn[2]),
+                        null,
+                        player.SteamPlayer(),
+                        EChatMode.SAY,
+                        FeexRanksPlugin.instance.Configuration.Instance.ChatIconURL,
+                        true
+                    );
                     UnturnedChat.Say(FeexRanksPlugin.instance.Translate("points_earned_time", FeexRanksPlugin.instance.Configuration.Instance.PointsEarnPerTime, FeexRanksPlugin.instance.Configuration.Instance.RankPointsName));
                     // Notify if he rank up
                     FeexRanksPlugin.instance.PlayerNotifyRankSystem(player, FeexRanksPlugin.instance.Database.GetPoints(player.Id), FeexRanksPlugin.instance.Database.GetRank(player.Id));
