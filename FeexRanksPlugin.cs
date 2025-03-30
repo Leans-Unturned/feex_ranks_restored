@@ -222,7 +222,15 @@ namespace FeexRanks
             if (Configuration.Instance.PointsLoseWhenDie > 0)
                 player.Events.OnDead += OnPlayerDied;
 
-            tickrate?.AddPlayer(player);
+            if (tickrate != null)
+            {
+                if (tickrate.Contains(player))
+                {
+                    player.Kick("Already playing");
+                    return;
+                }
+                tickrate.AddPlayer(player);
+            }
         }
 
         private void OnPlayerDied(UnturnedPlayer player, UnityCoreModule.Vector3 position)
@@ -341,7 +349,6 @@ namespace FeexRanks
                         FeexRanksPlugin.instance.Configuration.Instance.ChatIconURL,
                         true
                     );
-                    UnturnedChat.Say(FeexRanksPlugin.instance.Translate("points_earned_time", FeexRanksPlugin.instance.Configuration.Instance.PointsEarnPerTime, FeexRanksPlugin.instance.Configuration.Instance.RankPointsName));
                     // Notify if he rank up
                     FeexRanksPlugin.instance.PlayerNotifyRankSystem(player, FeexRanksPlugin.instance.Database.GetPoints(player.Id), FeexRanksPlugin.instance.Database.GetRank(player.Id));
                 }
@@ -352,5 +359,7 @@ namespace FeexRanks
         public void AddPlayer(UnturnedPlayer player) => playersToEarnPoints.Add(player);
 
         public void RemovePlayer(UnturnedPlayer player) => playersToEarnPoints.Remove(player);
+
+        public bool Contains(UnturnedPlayer player) => playersToEarnPoints.Contains(player);
     }
 }
