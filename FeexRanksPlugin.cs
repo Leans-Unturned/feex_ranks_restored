@@ -231,6 +231,18 @@ namespace FeexRanks
                 }
                 tickrate.AddPlayer(player);
             }
+
+            int currentPoints = Database.GetPoints(player.Id);
+            foreach (Rank forRank in Configuration.Instance.Ranks)
+            {
+                if (currentPoints >= forRank.points)
+                {
+                    if (forRank.groupReward != null)
+                        Rocket.Core.R.Permissions.AddPlayerToGroup(forRank.groupReward, player);
+                }
+                else break;
+            }
+
         }
 
         private void OnPlayerDied(UnturnedPlayer player, UnityCoreModule.Vector3 position)
