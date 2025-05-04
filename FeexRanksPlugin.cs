@@ -92,8 +92,12 @@ namespace FeexRanks
             }
         }
 
-        public void PlayerNotifyRankSystem(UnturnedPlayer player, decimal currentPoints, string currentRank)
+        public void PlayerNotifyRankSystem(UnturnedPlayer player, decimal? currentPoints, string currentRank)
         {
+            if (player == null) return;
+            if (currentPoints == null) return;
+            if (currentRank == null) return;
+
             Rank calculatedRank = null;
             Rank actualRank = null;
             // Swipe all levels to get the current level
